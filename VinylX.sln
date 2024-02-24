@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34607.119
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VinylX", "VinylX\VinylX.csproj", "{DDFCCD09-D225-46B1-A046-5A23008B45A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDFCCD09-D225-46B1-A046-5A23008B45A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDFCCD09-D225-46B1-A046-5A23008B45A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDFCCD09-D225-46B1-A046-5A23008B45A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDFCCD09-D225-46B1-A046-5A23008B45A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4165C50E-F82D-47F5-A396-774AA2F3ECDD}
+	EndGlobalSection
+EndGlobal
