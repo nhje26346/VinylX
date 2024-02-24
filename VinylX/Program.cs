@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using VinylX.Data;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
+using VinylX.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<VinylXContext>(options =>
@@ -19,6 +20,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())  //TODO Remove 24-28
+{
+    var services = scope.ServiceProvider;
+    
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
