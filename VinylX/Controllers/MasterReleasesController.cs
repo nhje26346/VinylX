@@ -26,7 +26,7 @@ namespace VinylX.Controllers
         }
 
         // GET: MasterReleases/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -58,7 +58,6 @@ namespace VinylX.Controllers
         {
             if (ModelState.IsValid)
             {
-                masterRelease.MasterReleaseId = Guid.NewGuid();
                 _context.Add(masterRelease);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -67,7 +66,7 @@ namespace VinylX.Controllers
         }
 
         // GET: MasterReleases/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -87,7 +86,7 @@ namespace VinylX.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("MasterReleaseId,AlbumName,BarcodeNumber,ArtistId")] MasterRelease masterRelease)
+        public async Task<IActionResult> Edit(int id, [Bind("MasterReleaseId,AlbumName,BarcodeNumber,ArtistId")] MasterRelease masterRelease)
         {
             if (id != masterRelease.MasterReleaseId)
             {
@@ -118,7 +117,7 @@ namespace VinylX.Controllers
         }
 
         // GET: MasterReleases/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -138,7 +137,7 @@ namespace VinylX.Controllers
         // POST: MasterReleases/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var masterRelease = await _context.MasterRelease.FindAsync(id);
             if (masterRelease != null)
@@ -150,7 +149,7 @@ namespace VinylX.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MasterReleaseExists(Guid id)
+        private bool MasterReleaseExists(int id)
         {
             return _context.MasterRelease.Any(e => e.MasterReleaseId == id);
         }

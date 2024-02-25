@@ -26,7 +26,7 @@ namespace VinylX.Controllers
         }
 
         // GET: Artists/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -54,11 +54,10 @@ namespace VinylX.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ArtistId,ArtistName")] Artist artist)
+        public async Task<IActionResult> Create([Bind("ArtistId,ArtistName,DiscogArtistId")] Artist artist)
         {
             if (ModelState.IsValid)
             {
-                artist.ArtistId = Guid.NewGuid();
                 _context.Add(artist);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -67,7 +66,7 @@ namespace VinylX.Controllers
         }
 
         // GET: Artists/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -87,7 +86,7 @@ namespace VinylX.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ArtistId,ArtistName")] Artist artist)
+        public async Task<IActionResult> Edit(int id, [Bind("ArtistId,ArtistName,DiscogArtistId")] Artist artist)
         {
             if (id != artist.ArtistId)
             {
@@ -118,7 +117,7 @@ namespace VinylX.Controllers
         }
 
         // GET: Artists/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -138,7 +137,7 @@ namespace VinylX.Controllers
         // POST: Artists/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var artist = await _context.Artist.FindAsync(id);
             if (artist != null)
@@ -150,7 +149,7 @@ namespace VinylX.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ArtistExists(Guid id)
+        private bool ArtistExists(int id)
         {
             return _context.Artist.Any(e => e.ArtistId == id);
         }

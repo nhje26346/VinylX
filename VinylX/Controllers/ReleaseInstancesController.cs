@@ -26,7 +26,7 @@ namespace VinylX.Controllers
         }
 
         // GET: ReleaseInstances/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -58,7 +58,6 @@ namespace VinylX.Controllers
         {
             if (ModelState.IsValid)
             {
-                releaseInstance.ReleaseInstanceId = Guid.NewGuid();
                 _context.Add(releaseInstance);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -67,7 +66,7 @@ namespace VinylX.Controllers
         }
 
         // GET: ReleaseInstances/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -87,7 +86,7 @@ namespace VinylX.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ReleaseInstanceId,Quality,UserId")] ReleaseInstance releaseInstance)
+        public async Task<IActionResult> Edit(int id, [Bind("ReleaseInstanceId,Quality,UserId")] ReleaseInstance releaseInstance)
         {
             if (id != releaseInstance.ReleaseInstanceId)
             {
@@ -118,7 +117,7 @@ namespace VinylX.Controllers
         }
 
         // GET: ReleaseInstances/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -138,7 +137,7 @@ namespace VinylX.Controllers
         // POST: ReleaseInstances/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var releaseInstance = await _context.ReleaseInstance.FindAsync(id);
             if (releaseInstance != null)
@@ -150,7 +149,7 @@ namespace VinylX.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ReleaseInstanceExists(Guid id)
+        private bool ReleaseInstanceExists(int id)
         {
             return _context.ReleaseInstance.Any(e => e.ReleaseInstanceId == id);
         }

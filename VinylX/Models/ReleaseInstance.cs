@@ -2,10 +2,10 @@
 {
     public class ReleaseInstance
     {
-    public Guid ReleaseInstanceId { get; set; }
+    public int ReleaseInstanceId { get; set; }
 
     public string? Quality { get; set; }
-    public Guid UserId { get; set; }
+    public int UserId { get; set; }
 
     }
 }

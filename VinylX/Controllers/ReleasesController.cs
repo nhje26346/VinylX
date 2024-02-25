@@ -26,7 +26,7 @@ namespace VinylX.Controllers
         }
 
         // GET: Releases/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -54,11 +54,10 @@ namespace VinylX.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReleaseId,ReleaseDate,CategoryNumber,Edition,Genre")] Release release)
+        public async Task<IActionResult> Create([Bind("ReleaseId,ReleaseDate,CategoryNumber,Edition,Genre,DiscogReleaseId")] Release release)
         {
             if (ModelState.IsValid)
             {
-                release.ReleaseId = Guid.NewGuid();
                 _context.Add(release);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -67,7 +66,7 @@ namespace VinylX.Controllers
         }
 
         // GET: Releases/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -87,7 +86,7 @@ namespace VinylX.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ReleaseId,ReleaseDate,CategoryNumber,Edition,Genre")] Release release)
+        public async Task<IActionResult> Edit(int id, [Bind("ReleaseId,ReleaseDate,CategoryNumber,Edition,Genre,DiscogReleaseId")] Release release)
         {
             if (id != release.ReleaseId)
             {
@@ -118,7 +117,7 @@ namespace VinylX.Controllers
         }
 
         // GET: Releases/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -138,7 +137,7 @@ namespace VinylX.Controllers
         // POST: Releases/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var release = await _context.Release.FindAsync(id);
             if (release != null)
@@ -150,7 +149,7 @@ namespace VinylX.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ReleaseExists(Guid id)
+        private bool ReleaseExists(int id)
         {
             return _context.Release.Any(e => e.ReleaseId == id);
         }

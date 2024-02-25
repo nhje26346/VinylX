@@ -6,8 +6,10 @@ namespace VinylX.Models
     
     public class Artist
     {
-        public Guid ArtistId { get; set; }
+        public int ArtistId { get; set; }
 
         public required string ArtistName { get; set;}
+
+        public int DiscogArtistId { get; set; }
     }
 }

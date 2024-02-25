@@ -2,8 +2,9 @@
 {
     public class RecordLabel
     {
-        public Guid RecordLabelId { get; set; }
+        public int RecordLabelId { get; set; }
         public required string LabelName { get; set; }
-        public string? LabelSubdivision { get; set; }
+        
+        public int DiscogLabelId { get; set; }
     }
 }

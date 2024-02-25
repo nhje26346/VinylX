@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace VinylX.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +14,10 @@ namespace VinylX.Migrations
                 name: "Artist",
                 columns: table => new
                 {
-                    ArtistId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ArtistName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ArtistId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ArtistName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DiscogArtistId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,7 +28,8 @@ namespace VinylX.Migrations
                 name: "Folder",
                 columns: table => new
                 {
-                    FolderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FolderId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FolderName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -39,10 +41,11 @@ namespace VinylX.Migrations
                 name: "MasterRelease",
                 columns: table => new
                 {
-                    MasterReleaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MasterReleaseId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     AlbumName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BarcodeNumber = table.Column<int>(type: "int", nullable: false),
-                    ArtistId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ArtistId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,9 +56,10 @@ namespace VinylX.Migrations
                 name: "Media",
                 columns: table => new
                 {
-                    MediaID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MediaName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReleaseID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    MediaID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MediaName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReleaseID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,9 +70,10 @@ namespace VinylX.Migrations
                 name: "RecordLabel",
                 columns: table => new
                 {
-                    RecordLabelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RecordLabelId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     LabelName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LabelSubdivision = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    DiscogLabelId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,11 +84,13 @@ namespace VinylX.Migrations
                 name: "Release",
                 columns: table => new
                 {
-                    ReleaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReleaseId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReleaseDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Edition = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Genre = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Genre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DiscogReleaseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -94,9 +101,10 @@ namespace VinylX.Migrations
                 name: "ReleaseInstance",
                 columns: table => new
                 {
-                    ReleaseInstanceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ReleaseInstanceId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Quality = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -107,7 +115,8 @@ namespace VinylX.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },

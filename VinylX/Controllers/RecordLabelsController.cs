@@ -26,7 +26,7 @@ namespace VinylX.Controllers
         }
 
         // GET: RecordLabels/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -54,11 +54,10 @@ namespace VinylX.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RecordLabelId,LabelName,LabelSubdivision")] RecordLabel recordLabel)
+        public async Task<IActionResult> Create([Bind("RecordLabelId,LabelName,DiscogLabelId")] RecordLabel recordLabel)
         {
             if (ModelState.IsValid)
             {
-                recordLabel.RecordLabelId = Guid.NewGuid();
                 _context.Add(recordLabel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -67,7 +66,7 @@ namespace VinylX.Controllers
         }
 
         // GET: RecordLabels/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -87,7 +86,7 @@ namespace VinylX.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("RecordLabelId,LabelName,LabelSubdivision")] RecordLabel recordLabel)
+        public async Task<IActionResult> Edit(int id, [Bind("RecordLabelId,LabelName,DiscogLabelId")] RecordLabel recordLabel)
         {
             if (id != recordLabel.RecordLabelId)
             {
@@ -118,7 +117,7 @@ namespace VinylX.Controllers
         }
 
         // GET: RecordLabels/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -138,7 +137,7 @@ namespace VinylX.Controllers
         // POST: RecordLabels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var recordLabel = await _context.RecordLabel.FindAsync(id);
             if (recordLabel != null)
@@ -150,7 +149,7 @@ namespace VinylX.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RecordLabelExists(Guid id)
+        private bool RecordLabelExists(int id)
         {
             return _context.RecordLabel.Any(e => e.RecordLabelId == id);
         }

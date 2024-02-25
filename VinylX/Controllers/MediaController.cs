@@ -26,7 +26,7 @@ namespace VinylX.Controllers
         }
 
         // GET: Media/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -58,7 +58,6 @@ namespace VinylX.Controllers
         {
             if (ModelState.IsValid)
             {
-                media.MediaID = Guid.NewGuid();
                 _context.Add(media);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -67,7 +66,7 @@ namespace VinylX.Controllers
         }
 
         // GET: Media/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -87,7 +86,7 @@ namespace VinylX.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("MediaID,MediaName,ReleaseID")] Media media)
+        public async Task<IActionResult> Edit(int id, [Bind("MediaID,MediaName,ReleaseID")] Media media)
         {
             if (id != media.MediaID)
             {
@@ -118,7 +117,7 @@ namespace VinylX.Controllers
         }
 
         // GET: Media/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -138,7 +137,7 @@ namespace VinylX.Controllers
         // POST: Media/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var media = await _context.Media.FindAsync(id);
             if (media != null)
@@ -150,7 +149,7 @@ namespace VinylX.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MediaExists(Guid id)
+        private bool MediaExists(int id)
         {
             return _context.Media.Any(e => e.MediaID == id);
         }

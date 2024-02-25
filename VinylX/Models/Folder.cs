@@ -3,7 +3,7 @@
 {
     public class Folder
     {
-        public Guid FolderId { get; set; }
-        public string FolderName { get; set; }
+        public int FolderId { get; set; }
+        public required string FolderName { get; set; }
     }
 }

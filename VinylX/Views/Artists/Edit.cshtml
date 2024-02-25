@@ -19,6 +19,11 @@
                 <span asp-validation-for="ArtistName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="DiscogArtistId" class="control-label"></label>
+                <input asp-for="DiscogArtistId" class="form-control" />
+                <span asp-validation-for="DiscogArtistId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

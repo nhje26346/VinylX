@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.LabelName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LabelSubdivision)
+                @Html.DisplayNameFor(model => model.DiscogLabelId)
             </th>
             <th></th>
         </tr>
@@ -28,7 +28,7 @@
                 @Html.DisplayFor(modelItem => item.LabelName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LabelSubdivision)
+                @Html.DisplayFor(modelItem => item.DiscogLabelId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.RecordLabelId">Edit</a> |
