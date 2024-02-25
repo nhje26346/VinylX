@@ -5,8 +5,12 @@
         public int MasterReleaseId { get; set; }
         public required string AlbumName { get; set; } 
 
-        public int BarcodeNumber { get; set; }
+        public string? BarcodeNumber { get; set; }
 
-        public int ArtistId { get; set; }
+        public string? CategoryNumber { get; set; }
+
+        //public int ArtistId { get; set; }
+        public required Artist Artist { get; set; }
+        public int DiscogMasterReleaseId { get; set; }
     }
 }

@@ -5,6 +5,6 @@
         public int MediaID { get; set; }
         public string? MediaName { get; set; }
 
-        public int ReleaseID { get; set; }
+        
     }
 }

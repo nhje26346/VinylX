@@ -7,8 +7,14 @@
         public string? CategoryNumber { get; set; }
         public string? Edition { get; set; }
 
+        public required MasterRelease MasterRelease { get; set; }
+
         public string? Genre { get; set; }
 
         public int DiscogReleaseId { get; set; }
+
+        public RecordLabel? RecordLabel { get; set; }
+
+        public required Media Media { get; set; }
     }
 }
