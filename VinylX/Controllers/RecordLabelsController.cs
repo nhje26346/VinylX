@@ -20,9 +20,52 @@ namespace VinylX.Controllers
         }
 
         // GET: RecordLabels
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+     string sortOrder,
+     string currentFilter,
+     string searchString,
+     int? pageNumber)
         {
-            return View(await _context.RecordLabel.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var labels = from l in _context.RecordLabel
+                           select l;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                labels = labels.Where(l => l.LabelName.Contains(searchString)
+                                       );
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    labels = labels.OrderByDescending(l => l.LabelName);
+                    break;
+                //case "Date":
+                //    labels = labels.OrderBy(l => l.EnrollmentDate);
+                //    break;
+                //case "date_desc":
+                //    students = students.OrderByDescending(s => s.EnrollmentDate);
+                //    break;
+                default:
+                    labels = labels.OrderBy(l => l.LabelName);
+                    break;
+            }
+
+            int pageSize = 3;
+            return View(await PaginatedList<RecordLabel>.CreateAsync(labels.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: RecordLabels/Details/5
