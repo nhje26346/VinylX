@@ -64,7 +64,7 @@ namespace VinylX.Controllers
                     break;
             }
 
-            int pageSize = 3;
+            int pageSize = 20;
             return View(await PaginatedList<RecordLabel>.CreateAsync(labels.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
