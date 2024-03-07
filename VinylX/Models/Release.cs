@@ -1,5 +1,8 @@
-﻿namespace VinylX.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace VinylX.Models
 {
+    [Index(nameof(DiscogReleaseId), IsUnique = true)]
     public class Release
     {
         public int ReleaseId { get; set; }

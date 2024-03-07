@@ -1,9 +1,9 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace VinylX.Models
 
 {
-    
+    [Index(nameof(DiscogArtistId), IsUnique = true)]
     public class Artist
     {
         public int ArtistId { get; set; }

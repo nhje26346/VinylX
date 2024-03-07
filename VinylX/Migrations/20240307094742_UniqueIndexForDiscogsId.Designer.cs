@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VinylX.Data;
 
@@ -11,9 +12,11 @@ using VinylX.Data;
 namespace VinylX.Migrations
 {
     [DbContext(typeof(VinylXContext))]
-    partial class VinylXContextModelSnapshot : ModelSnapshot
+    [Migration("20240307094742_UniqueIndexForDiscogsId")]
+    partial class UniqueIndexForDiscogsId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

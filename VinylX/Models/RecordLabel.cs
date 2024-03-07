@@ -1,5 +1,8 @@
-﻿namespace VinylX.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace VinylX.Models
 {
+    [Index(nameof(DiscogLabelId), IsUnique = true)]
     public class RecordLabel
     {
         public int RecordLabelId { get; set; }

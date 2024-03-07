@@ -1,5 +1,8 @@
-﻿namespace VinylX.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace VinylX.Models
 {
+    [Index(nameof(DiscogMasterReleaseId), IsUnique = true)]
     public class MasterRelease
     {
         public int MasterReleaseId { get; set; }

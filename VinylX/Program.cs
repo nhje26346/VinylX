@@ -7,8 +7,8 @@ using VinylX.Models;
 using VinylX.DiscogsImport;
 using System.Xml;
 
-ImportHelper helper = new ImportHelper();
-helper.SplitXml("C:\\Temp\\Discogs\\discogs_20240201_labels.xml", "labels","label",100000,"C:\\Temp\\Discogs\\SplitOutput");
+//ImportHelper helper = new ImportHelper();
+//helper.SplitXml("C:\\Temp\\Discogs\\discogs_20240201_labels.xml", "labels","label",100000,"C:\\Temp\\Discogs\\SplitOutput");
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<VinylXContext>(options =>
