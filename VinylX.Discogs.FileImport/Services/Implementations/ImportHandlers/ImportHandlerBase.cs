@@ -16,6 +16,8 @@ namespace VinylX.Discogs.FileImport.Services.Implementations.ImportHandlers
         private readonly ILogger<ImportHandlerBase> logger;
 
         protected virtual int SingleMessageMaxSize => 45000000;
+        protected virtual int TooManyRequestInitalDelay => 7500;
+        protected virtual int DelayBetweenHttpPosts => 5000;
 
         protected abstract string ImportEndpointUrl { get; }
 
@@ -38,7 +40,7 @@ namespace VinylX.Discogs.FileImport.Services.Implementations.ImportHandlers
                 {
                     fileCounter++;
 
-                    var tooManyRequestWaitTime = 15000;
+                    var tooManyRequestWaitTime = TooManyRequestInitalDelay;
                     var retry = true;
                     while (retry)
                     {
@@ -51,6 +53,8 @@ namespace VinylX.Discogs.FileImport.Services.Implementations.ImportHandlers
                         HttpResponseMessage response = null!;
                         try
                         {
+                            logger.LogInformation("Wating {seconds} seconds before sending HTTP request...", DelayBetweenHttpPosts / (double)1000);
+                            Thread.Sleep(DelayBetweenHttpPosts);
                             logger.LogInformation("Sending HTTP request ({count} / {total})...", fileCounter, importSubFiles.Count());
                             response = await httpClient.SendAsync(request);
                             logger.LogInformation("Response received.");
@@ -58,6 +62,7 @@ namespace VinylX.Discogs.FileImport.Services.Implementations.ImportHandlers
                         catch (Exception ex)
                         {
                             logger.LogError(ex, "Exception caught while sending file {file}", importSubFile);
+                            break;
                         }
 
                         if (!response.IsSuccessStatusCode)
