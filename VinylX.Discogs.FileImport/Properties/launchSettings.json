@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "VinylX.Discogs.FileImport": {
+      "commandName": "Project"
+      //,"commandLineArgs": "C:\\Users\\David\\Downloads\\discogs_20240101_artists.xml.gz"
+    }
+  }
+}
