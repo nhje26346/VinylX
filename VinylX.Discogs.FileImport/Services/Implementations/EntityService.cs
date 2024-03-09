@@ -17,6 +17,7 @@ namespace VinylX.Discogs.FileImport.Services.Implementations
             checkFunctions[EntityType.RecordLabel] = fn => fn.Contains("_labels.");
             checkFunctions[EntityType.Artist] = fn => fn.Contains("_artists.");
             checkFunctions[EntityType.Master] = fn => fn.Contains("_masters.");
+            checkFunctions[EntityType.Release] = fn => fn.Contains("_releases.");
         }
 
         public EntityType GetEntityTypeFromFilename(string filename)

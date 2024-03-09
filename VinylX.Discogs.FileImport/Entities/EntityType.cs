@@ -10,6 +10,7 @@ namespace VinylX.Discogs.FileImport.Entities
     {
         RecordLabel,
         Artist,
-        Master
+        Master,
+        Release
     }
 }

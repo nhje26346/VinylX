@@ -23,6 +23,7 @@ namespace VinylX.Discogs.FileImport.Services.Implementations
             EntityType.RecordLabel => serviceProvider.GetRequiredService<ImportHandlers.LabelImportHandler>(),
             EntityType.Artist => serviceProvider.GetRequiredService<ImportHandlers.ArtistImportHandler>(),
             EntityType.Master => serviceProvider.GetRequiredService<ImportHandlers.MasterImportHandler>(),
+            EntityType.Release => serviceProvider.GetRequiredService<ImportHandlers.ReleaseImportHandler>(),
             _ => throw new Exception($"Unhandled {nameof(EntityType)}: {entityType}")
         };
     }

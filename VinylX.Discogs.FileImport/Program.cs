@@ -17,6 +17,7 @@ public static class Program
             .AddScoped<LabelImportHandler>()
             .AddScoped<ArtistImportHandler>()
             .AddScoped<MasterImportHandler>()
+            .AddScoped<ReleaseImportHandler>()
             .BuildServiceProvider();
 
         serviceProvider.GetRequiredService<FileImportService>().RunImport(args).GetAwaiter().GetResult();
