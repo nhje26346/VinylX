@@ -9,6 +9,7 @@ namespace VinylX.Discogs.FileImport.Entities
     internal enum EntityType
     {
         RecordLabel,
-        Artist
+        Artist,
+        Master
     }
 }

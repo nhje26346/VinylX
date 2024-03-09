@@ -17,7 +17,7 @@ namespace VinylX.Discogs.FileImport.Services.Implementations.ImportHandlers
 
         protected virtual int SingleMessageMaxSize => 45000000;
         protected virtual int TooManyRequestInitalDelay => 7500;
-        protected virtual int DelayBetweenHttpPosts => 5000;
+        protected virtual int DelayBetweenHttpPosts => 10000;
 
         protected abstract string ImportEndpointUrl { get; }
 
