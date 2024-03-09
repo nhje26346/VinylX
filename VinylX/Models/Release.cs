@@ -9,6 +9,7 @@ namespace VinylX.Models
         public string? ReleaseDate { get; set; }
         public string? CategoryNumber { get; set; }
         public string? Edition { get; set; }
+        public string? BarcodeNumber { get; set; }
 
         public required MasterRelease MasterRelease { get; set; }
 
