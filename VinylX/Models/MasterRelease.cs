@@ -10,7 +10,7 @@ namespace VinylX.Models
 
         public string? BarcodeNumber { get; set; }
 
-        public string? CategoryNumber { get; set; }
+
 
         //public int ArtistId { get; set; }
         public required Artist Artist { get; set; }
