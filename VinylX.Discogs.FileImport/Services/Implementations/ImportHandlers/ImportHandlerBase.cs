@@ -29,7 +29,7 @@ namespace VinylX.Discogs.FileImport.Services.Implementations.ImportHandlers
         public async Task ImportFile(string filename)
         {
             var importSubFiles = await SplitFile(filename);
-            
+
             logger.LogInformation("Sending {fileCount} files to endpoint {endpoint}...", importSubFiles.Count(), ImportEndpointUrl);
 
             var fileCounter = 0;
@@ -141,14 +141,8 @@ namespace VinylX.Discogs.FileImport.Services.Implementations.ImportHandlers
 
             while (!IsAtTrailer(xmlReader))
             {
-                // We are currently at the start of a message, so we can write the current node
-                await currentWriter.WriteNodeAsync(xmlReader, false);
-                while (!IsAtNewMessage(xmlReader) && !IsAtTrailer(xmlReader))
-                {
-                    // If we are not at a new message or at the trailer we can write the current node
-                    // This is usually whitespaces between elements
-                    await currentWriter.WriteNodeAsync(xmlReader, false);
-                }
+                // We are currently at the start of a message, so we can write until we meet a new message or a envelope trailer
+                await DoWriteWhile(xmlReader, currentWriter, r => !IsAtNewMessage(r) && !IsAtTrailer(r));
                 if (IsAtNewMessage(xmlReader))
                 {
                     // New message - call flush to be able to check the size of the current stream,
@@ -189,6 +183,8 @@ namespace VinylX.Discogs.FileImport.Services.Implementations.ImportHandlers
 
         protected virtual bool IsAtTrailer(XmlReader xmlReader) => xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Depth == 0;
 
+        protected virtual bool IncludeElement(string prefix, string localName, string namespaceURI, int depth) => true;
+
         private XmlWriter CreateXmlWriter(Stream stream) => XmlWriter.Create(stream, new XmlWriterSettings { Async = true, OmitXmlDeclaration = true });
 
         private XmlReader CreateXmlReader(Stream stream) => XmlReader.Create(stream, new XmlReaderSettings { Async = true });
@@ -210,20 +206,72 @@ namespace VinylX.Discogs.FileImport.Services.Implementations.ImportHandlers
 
             do 
             {
-                if (reader.NodeType == XmlNodeType.Element)
+                if (reader.NodeType == XmlNodeType.Element && !IncludeElement(reader.Prefix, reader.LocalName, reader.NamespaceURI, reader.Depth))
                 {
-                    if (reader.NodeType == XmlNodeType.Element)
-                    {
-                        await writer.WriteStartElementAsync(reader.Prefix, reader.LocalName, reader.NamespaceURI);
-                        reader.ReadStartElement();
-                    }
+                    await reader.ReadAsync(true);
                 }
                 else
                 {
-                    await writer.WriteNodeAsync(reader, false);
+                    switch (reader.NodeType)
+                    {
+                        case XmlNodeType.None:
+                            break;
+                        case XmlNodeType.Element:
+                            await writer.WriteStartElementAsync(reader.Prefix, reader.LocalName, reader.NamespaceURI);
+                            if (reader.IsEmptyElement)
+                            {
+                                while (reader.MoveToNextAttribute())
+                                {
+                                    await writer.WriteAttributeStringAsync(reader.Prefix, reader.LocalName, reader.NamespaceURI, reader.Value);
+                                }
+                                await writer.WriteEndElementAsync();
+                            }
+                            break;
+                        case XmlNodeType.Attribute:
+                            await writer.WriteAttributeStringAsync(reader.Prefix, reader.LocalName, reader.NamespaceURI, reader.Value);
+                            break;
+                        case XmlNodeType.Text:
+                            await writer.WriteStringAsync(reader.Value);
+                            break;
+                        case XmlNodeType.CDATA:
+                            await writer.WriteCDataAsync(reader.Value);
+                            break;
+                        case XmlNodeType.EntityReference:
+                            break;
+                        case XmlNodeType.Entity:
+                            break;
+                        case XmlNodeType.ProcessingInstruction:
+                            break;
+                        case XmlNodeType.Comment:
+                            await writer.WriteCommentAsync(reader.Value);
+                            break;
+                        case XmlNodeType.Document:
+                            break;
+                        case XmlNodeType.DocumentType:
+                            break;
+                        case XmlNodeType.DocumentFragment:
+                            break;
+                        case XmlNodeType.Notation:
+                            break;
+                        case XmlNodeType.Whitespace:
+                            await writer.WriteWhitespaceAsync(reader.Value);
+                            break;
+                        case XmlNodeType.SignificantWhitespace:
+                            await writer.WriteWhitespaceAsync(reader.Value);
+                            break;
+                        case XmlNodeType.EndElement:
+                            await writer.WriteEndElementAsync();
+                            break;
+                        case XmlNodeType.EndEntity:
+                            break;
+                        case XmlNodeType.XmlDeclaration:
+                            break;
+                        default:
+                            throw new Exception($"Unhandled {nameof(XmlNodeType)}: {reader.NodeType}");
+                    }
+                    await reader.ReadAsync(false);
                 }
-
-                await reader.ReadAsync();
+                
             } 
             while (!reader.EOF && condition(reader));
         }
