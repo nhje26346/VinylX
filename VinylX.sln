@@ -5,7 +5,17 @@ VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VinylX", "VinylX\VinylX.csproj", "{DDFCCD09-D225-46B1-A046-5A23008B45A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VinylX.Discogs.FileImport", "VinylX.Discogs.FileImport\VinylX.Discogs.FileImport.csproj", "{28A11709-97DE-4E99-9F0B-F5ED3FC3AD89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VinylX.Discogs.FileImport", "VinylX.Discogs.FileImport\VinylX.Discogs.FileImport.csproj", "{28A11709-97DE-4E99-9F0B-F5ED3FC3AD89}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseResources", "DatabaseResources", "{15F576CA-E8ED-477A-9C69-1FF336EBDC0F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoredProcedures", "StoredProcedures", "{53EF2D68-348D-43A8-92C0-CA7A4E472159}"
+	ProjectSection(SolutionItems) = preProject
+		DatabaseResources\StoredProcedures\ALTER PROCEDURE [dbo].[pArtist_ImportFromDiscogs].sql = DatabaseResources\StoredProcedures\ALTER PROCEDURE [dbo].[pArtist_ImportFromDiscogs].sql
+		DatabaseResources\StoredProcedures\ALTER PROCEDURE [dbo].[pMasterRelease_ImportFromDiscogs].sql = DatabaseResources\StoredProcedures\ALTER PROCEDURE [dbo].[pMasterRelease_ImportFromDiscogs].sql
+		DatabaseResources\StoredProcedures\ALTER PROCEDURE [dbo].[pRecordLabel_ImportFromDiscogs].sql = DatabaseResources\StoredProcedures\ALTER PROCEDURE [dbo].[pRecordLabel_ImportFromDiscogs].sql
+		DatabaseResources\StoredProcedures\ALTER PROCEDURE [dbo].[pRelease_ImportFromDiscogs].sql = DatabaseResources\StoredProcedures\ALTER PROCEDURE [dbo].[pRelease_ImportFromDiscogs].sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +34,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{53EF2D68-348D-43A8-92C0-CA7A4E472159} = {15F576CA-E8ED-477A-9C69-1FF336EBDC0F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4165C50E-F82D-47F5-A396-774AA2F3ECDD}
