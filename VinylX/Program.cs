@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using VinylX.Models;
 using VinylX.DiscogsImport;
 using System.Xml;
+using VinylX;
 
 //ImportHelper helper = new ImportHelper();
 //helper.SplitXml("C:\\Temp\\Discogs\\discogs_20240201_labels.xml", "labels","label",100000,"C:\\Temp\\Discogs\\SplitOutput");
@@ -23,6 +24,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddVinylXServices();
 
 var app = builder.Build();
 
