@@ -53,12 +53,7 @@ namespace VinylX.Controllers
                 case "name_desc":
                     labels = labels.OrderByDescending(l => l.LabelName);
                     break;
-                //case "Date":
-                //    labels = labels.OrderBy(l => l.EnrollmentDate);
-                //    break;
-                //case "date_desc":
-                //    students = students.OrderByDescending(s => s.EnrollmentDate);
-                //    break;
+  
                 default:
                     labels = labels.OrderBy(l => l.LabelName);
                     break;
