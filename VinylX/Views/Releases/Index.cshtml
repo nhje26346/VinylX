@@ -17,6 +17,12 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.MasterRelease.Artist.ArtistName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MasterRelease.AlbumName)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.ReleaseDate)
             </th>
             <th>
@@ -28,9 +34,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Genre)
             </th>
-            <th>
+           @*  <th>
                 @Html.DisplayNameFor(model => model.DiscogReleaseId)
-            </th>
+            </th> *@
             <th></th>
         </tr>
     </thead>
@@ -39,7 +45,10 @@
         {
         <tr>
             <td>
-                @item.ReleaseDate
+                @item.MasterRelease.Artist.ArtistName
+            </td>
+            <td>
+                @item.MasterRelease.AlbumName
             </td>
             <td>
                 @item.CategoryNumber
@@ -50,9 +59,9 @@
             <td>
                 @item.Genre
             </td>
-            <td>
+           @*  <td>
                 @item.DiscogReleaseId
-            </td>
+            </td> *@
             <td>
                 <a asp-action="AddToFolderView" asp-route-id="@item.ReleaseId">Add to folder</a>
               @*   <a asp-action="Details" asp-route-id="@item.ReleaseId">Details</a> | *@

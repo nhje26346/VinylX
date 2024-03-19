@@ -1,4 +1,4 @@
-﻿@model VinylX.Models.Folder
+﻿@model VinylX.Controllers.FoldersController.FolderAndReleases
 
 @{
     ViewData["Title"] = "Details";
@@ -11,14 +11,38 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FolderName)
+            @Html.DisplayNameFor(model => model.Folder.FolderName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FolderName)
+            @Html.DisplayFor(model => model.Folder.FolderName)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.FolderId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+    <table style="border: 1px solid black;">
+        <tr style="border-bottom: 1px solid black;">
+            <td style="border-right: 1px solid black;">
+                @Html.DisplayNameFor(model => model.ReleaseInstances.First().Release.MasterRelease.Artist.ArtistName)
+            </td>
+            <td style="border-right: 1px solid black;">
+                @Html.DisplayNameFor(model => model.ReleaseInstances.First().Release.MasterRelease.AlbumName)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.ReleaseInstances.First().Release.Edition)
+            </td>
+        </tr>
+        @foreach (var item in Model.ReleaseInstances)
+        {
+            <tr>
+                <td style="border-right: 1px solid black;">
+                    @item.Release.MasterRelease.Artist.ArtistName
+                </td>
+                <td style ="border-right: 1px solid black;">
+                    @item.Release.MasterRelease.AlbumName
+                </td>
+                <td>
+                    @item.Release.Edition
+                </td>
+            </tr>
+        }
+    </table>
 </div>

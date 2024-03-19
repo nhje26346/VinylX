@@ -32,7 +32,7 @@ namespace VinylX.Controllers
             IQueryable<Release> releases = _context.Release;
 
             var pageNumber = page ?? 1;
-            var onePageOfItems = releases.ToPagedList(pageNumber, 25);
+            var onePageOfItems = releases.Include(r => r.MasterRelease).Include(r => r.MasterRelease.Artist).ToPagedList(pageNumber, 25);
 
             ViewBag.OnePageOfItems = onePageOfItems;
 

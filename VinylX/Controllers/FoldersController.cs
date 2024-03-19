@@ -42,12 +42,21 @@ namespace VinylX.Controllers
 
             var folder = await _context.Folder
                 .FirstOrDefaultAsync(m => m.FolderId == id);
+
             if (folder == null)
             {
                 return NotFound();
             }
 
-            return View(folder);
+            var releaseIntances = _context.ReleaseInstance
+                .Include(r => r.Release)
+                .Include(r => r.Release.MasterRelease)
+                .Include(r => r.Release.MasterRelease.Artist)
+                .Where(r => r.Folder.FolderId == folder.FolderId);
+
+            var folderAndRelaesesModel = new FolderAndReleases(folder, releaseIntances);
+
+            return View(folderAndRelaesesModel);
         }
 
         // GET: Folders/Create
@@ -169,6 +178,18 @@ namespace VinylX.Controllers
         private bool FolderExists(int id)
         {
             return _context.Folder.Any(e => e.FolderId == id);
+        }
+
+        public class FolderAndReleases
+        {
+            public Folder Folder { get; set; }
+            public IEnumerable<ReleaseInstance> ReleaseInstances { get; set; }  
+
+            public FolderAndReleases(Folder folder, IEnumerable<ReleaseInstance> releaseInstances)
+            {
+                Folder = folder;
+                ReleaseInstances = releaseInstances;
+            }
         }
     }
 }
