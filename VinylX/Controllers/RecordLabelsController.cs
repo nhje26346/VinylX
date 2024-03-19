@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VinylX.Data;
 using VinylX.Models;
+using X.PagedList;
 
 namespace VinylX.Controllers
 {
@@ -22,48 +23,59 @@ namespace VinylX.Controllers
         }
 
         // GET: RecordLabels
-        public async Task<IActionResult> Index(
-        string sortOrder,
-        string currentFilter,
-        string searchString,
-        int? pageNumber)
+        public async Task<IActionResult> Index( string searchString, string sortorder, int? page)
         {
-            ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            IQueryable<RecordLabel> labels = _context.RecordLabel;
 
-            if (searchString != null)
-            {
-                pageNumber = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
+            var pageNumber = page ?? 1;
+            var onePageOfItems = labels.Where(l => string.IsNullOrEmpty(searchString) || l.LabelName.Contains(searchString)).ToPagedList(pageNumber, 25);
 
-            ViewData["CurrentFilter"] = searchString;
+            ViewBag.OnePageOfItems = onePageOfItems;
 
-            var labels = from l in _context.RecordLabel
-                           select l;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                labels = labels.Where(l => l.LabelName.Contains(searchString)
-                                       );
-            }
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    labels = labels.OrderByDescending(l => l.LabelName);
-                    break;
-  
-                default:
-                    labels = labels.OrderBy(l => l.LabelName);
-                    break;
-            }
-
-            int pageSize = 20;
-            return View(await PaginatedList<RecordLabel>.CreateAsync(labels.AsNoTracking(), pageNumber ?? 1, pageSize));
+            //return View(await _context.Release.ToListAsync());
+            return View();
         }
+        //string sortOrder,
+        //string currentFilter,
+        //string searchString,
+        //int? pageNumber)
+        //{
+        //    ViewData["CurrentSort"] = sortOrder;
+        //    ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        //    ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+        //    if (searchString != null)
+        //    {
+        //        pageNumber = 1;
+        //    }
+        //    else
+        //    {
+        //        searchString = currentFilter;
+        //    }
+
+        //    ViewData["CurrentFilter"] = searchString;
+
+        //    var labels = from l in _context.RecordLabel
+        //                   select l;
+        //    if (!String.IsNullOrEmpty(searchString))
+        //    {
+        //        labels = labels.Where(l => l.LabelName.Contains(searchString)
+        //                               );
+        //    }
+        //    switch (sortOrder)
+        //    {
+        //        case "name_desc":
+        //            labels = labels.OrderByDescending(l => l.LabelName);
+        //            break;
+
+        //        default:
+        //            labels = labels.OrderBy(l => l.LabelName);
+        //            break;
+        //    }
+
+        //    int pageSize = 20;
+        //    return View(await PaginatedList<RecordLabel>.CreateAsync(labels.AsNoTracking(), pageNumber ?? 1, pageSize));
+        //}
 
         // GET: RecordLabels/Details/5
         public async Task<IActionResult> Details(int? id)
