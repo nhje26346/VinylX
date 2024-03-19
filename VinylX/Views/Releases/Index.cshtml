@@ -3,7 +3,7 @@
 @model IEnumerable<VinylX.Models.Release>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Releases";
 }
 
 <link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
@@ -54,7 +54,7 @@
                 @item.DiscogReleaseId
             </td>
             <td>
-               @*  <a asp-action="Edit" asp-route-id="@item.ReleaseId">Edit</a> | *@
+                <a asp-action="AddToFolderView" asp-route-id="@item.ReleaseId">Add to folder</a>
               @*   <a asp-action="Details" asp-route-id="@item.ReleaseId">Details</a> | *@
                 @* <a asp-action="Delete" asp-route-id="@item.ReleaseId">Delete</a> *@
             </td>

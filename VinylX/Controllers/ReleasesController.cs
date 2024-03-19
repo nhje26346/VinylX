@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VinylX.Data;
 using VinylX.Models;
+using VinylX.Services;
 using X.PagedList;
 
 
@@ -17,10 +18,12 @@ namespace VinylX.Controllers
     public class ReleasesController : Controller
     {
         private readonly VinylXContext _context;
+        private readonly IUserService userService;
 
-        public ReleasesController(VinylXContext context)
+        public ReleasesController(VinylXContext context, IUserService userService)
         {
             _context = context;
+            this.userService = userService;
         }
 
         // GET: Releases
@@ -164,6 +167,49 @@ namespace VinylX.Controllers
         private bool ReleaseExists(int id)
         {
             return _context.Release.Any(e => e.ReleaseId == id);
+        }
+
+        public async Task<IActionResult> AddToFolderView(int id)
+        {
+            var user = await userService.GetLoggedInUser();
+
+            var release = await _context.Release
+                .Include(r => r.MasterRelease)
+                .Include(r => r.MasterRelease.Artist)
+                .SingleAsync(r => r.ReleaseId == id);
+
+            var folders = _context.Folder.Where(f => f.User.UserId == user.UserId);
+
+            var addToFolderModel = new AddToFolderModel(release, folders);
+
+            return View(addToFolderModel);
+        }
+
+        public async Task<IActionResult> AddToFolder(int folderId, int releaseId, string quality)
+        {
+            var folder = _context.Folder.Single(f => f.FolderId == folderId);
+            var release = _context.Release.Single(r => r.ReleaseId == releaseId);
+            _context.ReleaseInstance.Add(new ReleaseInstance
+            {
+                Folder = folder,
+                Release = release,
+                Quality = quality
+            });
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        public class AddToFolderModel
+        {
+            public Release Release { get; set; }
+            public IEnumerable<Folder> Folders { get; set; }
+
+            public AddToFolderModel(Release release, IEnumerable<Folder> folders)
+            {
+                Release = release;
+                Folders = folders;
+            }
         }
     }
 }

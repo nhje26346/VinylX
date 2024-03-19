@@ -1,0 +1,80 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model VinylX.Controllers.ReleasesController.AddToFolderModel
+
+@{
+    ViewData["Title"] = "Add relase to folder";
+}
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Release.MasterRelease.AlbumName)</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Release.MasterRelease.Artist.ArtistName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Release.MasterRelease.Artist.ArtistName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Release.ReleaseDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Release.ReleaseDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Release.CategoryNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Release.CategoryNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Release.Edition)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Release.Edition)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Release.Genre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Release.Genre)
+        </dd>
+     @*    <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Release.DiscogReleaseId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Release.DiscogReleaseId)
+        </dd> *@
+    </dl>
+</div>
+
+<div>
+    <hr />
+    <form asp-action="AddToFolder">
+        <dl class="row">
+            <dt class="col-sm-2">
+                <label asp-for="Folders.First().FolderName" class="control-label"></label>
+            </dt>
+            <dd class="col-sm-10">
+                <select name="folderId">
+                    @foreach (var item in Model.Folders)
+                    {
+                        <option value="@item.FolderId">
+                            @item.FolderName
+                        </option>
+                    }
+
+                </select>
+            </dd>
+            <dt class="col-sm-2">
+                <label class="control-label">Quality</label>
+            </dt>
+            <dd class="col-sm-10">
+                <input type="text" name="quality" title="Quality" />
+            </dd>   
+        </dl>
+        <input type="hidden" name="releaseId" value="@Model.Release.ReleaseId" />
+        <input type="submit" value="Add album to folder" class="btn btn-primary" />
+    </form>
+</div>
