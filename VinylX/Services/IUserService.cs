@@ -4,6 +4,6 @@ namespace VinylX.Services
 {
     public interface IUserService
     {
-        Task<User?> GetLoggedInUser();
+        Task<User> GetLoggedInUser();
     }
 }

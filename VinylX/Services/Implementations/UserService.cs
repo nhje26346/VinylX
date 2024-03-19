@@ -16,7 +16,7 @@ namespace VinylX.Services.Implementations
             this.vinylXContext = vinylXContext;
         }
 
-        public async Task<User?> GetLoggedInUser()
+        public async Task<User> GetLoggedInUser()
         {
             // Get AspNetUsersId from current logged-in user
             var aspNetUsersId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -24,7 +24,7 @@ namespace VinylX.Services.Implementations
             if (aspNetUsersId == null)
             {
                 // No user logged in
-                return null;
+                throw new Exception("No user currently logged in");
             }
 
             // Lookup related User entity
