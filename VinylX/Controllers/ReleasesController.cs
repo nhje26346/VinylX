@@ -47,8 +47,8 @@ namespace VinylX.Controllers
                          select r;
             if (!String.IsNullOrEmpty(searchString))
             {
-                releases = releases.Where(r => r.Edition.Contains(searchString)
-                                       );
+                releases = releases.Where(r => r.Edition.Contains(searchString));
+                                   
             }
             switch (sortOrder)
             {
