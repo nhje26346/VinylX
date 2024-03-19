@@ -46,24 +46,25 @@
         </tr>
     </thead> *@
     <tbody>
-@foreach (var item in Model) {
+            @foreach (var item in ViewBag.OnePageOfItems)
+            {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.LabelName)
+                @item.LabelName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DiscogLabelId)
+                @item.DiscogLabelId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.RecordLabelId">Edit</a> |
+               @*  <a asp-action="Edit" asp-route-id="@item.RecordLabelId">Edit</a> | *@
                 <a asp-action="Details" asp-route-id="@item.RecordLabelId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RecordLabelId">Delete</a>
+                @* <a asp-action="Delete" asp-route-id="@item.RecordLabelId">Delete</a> *@
             </td>
         </tr>
 }
     </tbody>
 </table>
-    @{
+   @*  @{
         var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
         var nextDisabled = !Model.HasNextPage ? "disabled" : "";
     }
@@ -81,4 +82,4 @@
        asp-route-currentFilter="@ViewData["CurrentFilter"]"
        class="btn btn-default @nextDisabled">
         Next
-    </a>
+    </a> *@
