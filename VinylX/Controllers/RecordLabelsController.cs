@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using VinylX.Models;
 
 namespace VinylX.Controllers
 {
+    [Authorize]
     public class RecordLabelsController : Controller
     {
         private readonly VinylXContext _context;
@@ -21,10 +23,10 @@ namespace VinylX.Controllers
 
         // GET: RecordLabels
         public async Task<IActionResult> Index(
-     string sortOrder,
-     string currentFilter,
-     string searchString,
-     int? pageNumber)
+        string sortOrder,
+        string currentFilter,
+        string searchString,
+        int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
