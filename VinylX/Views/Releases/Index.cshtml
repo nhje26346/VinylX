@@ -1,8 +1,12 @@
-﻿@model IEnumerable<VinylX.Models.Release>
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IEnumerable<VinylX.Models.Release>
 
 @{
     ViewData["Title"] = "Index";
 }
+
+<link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 <h1>Index</h1>
 
@@ -31,29 +35,31 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in ViewBag.OnePageOfItems)
+        {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
+                @item.ReleaseDate
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CategoryNumber)
+                @item.CategoryNumber
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Edition)
+                @item.Edition
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Genre)
+                @item.Genre
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DiscogReleaseId)
+                @item.DiscogReleaseId
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ReleaseId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ReleaseId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ReleaseId">Delete</a>
+               @*  <a asp-action="Edit" asp-route-id="@item.ReleaseId">Edit</a> | *@
+              @*   <a asp-action="Details" asp-route-id="@item.ReleaseId">Details</a> | *@
+                @* <a asp-action="Delete" asp-route-id="@item.ReleaseId">Delete</a> *@
             </td>
         </tr>
 }
     </tbody>
+    @Html.PagedListPager((IPagedList)ViewBag.OnePageOfItems, page => Url.Action("Index", new { page }))
 </table>

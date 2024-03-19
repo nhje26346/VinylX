@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VinylX.Data;
 using VinylX.Models;
+using X.PagedList;
+
 
 namespace VinylX.Controllers
 {
@@ -22,47 +24,17 @@ namespace VinylX.Controllers
         }
 
         // GET: Releases
-        public async Task<IActionResult> Index(
-        string sortOrder,
-        string currentFilter,
-        string searchString,
-        int? pageNumber)
+        public async Task<IActionResult> Index(int? page)
         {
-            ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            IQueryable<Release> releases = _context.Release;
 
-            if (searchString != null)
-            {
-                pageNumber = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
+            var pageNumber = page ?? 1;
+            var onePageOfItems = releases.ToPagedList(pageNumber, 25);
 
-            ViewData["CurrentFilter"] = searchString;
+            ViewBag.OnePageOfItems = onePageOfItems;
 
-            var releases = from r in _context.Release
-                         select r;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                releases = releases.Where(r => r.Edition.Contains(searchString));
-                                   
-            }
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    releases = releases.OrderByDescending(r => r.Edition);
-                    break;
-
-                default:
-                    releases = releases.OrderBy(r => r.Edition);
-                    break;
-            }
-
-            int pageSize = 20;
-            return View(await PaginatedList<Release>.CreateAsync(releases.AsNoTracking(), pageNumber ?? 1, pageSize));
+            //return View(await _context.Release.ToListAsync());
+            return View();
         }
 
         // GET: Releases/Details/5
