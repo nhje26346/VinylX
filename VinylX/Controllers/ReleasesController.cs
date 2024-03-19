@@ -22,9 +22,47 @@ namespace VinylX.Controllers
         }
 
         // GET: Releases
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+        string sortOrder,
+        string currentFilter,
+        string searchString,
+        int? pageNumber)
         {
-            return View(await _context.Release.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var releases = from r in _context.Release
+                         select r;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                releases = releases.Where(r => r.Edition.Contains(searchString)
+                                       );
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    releases = releases.OrderByDescending(r => r.Edition);
+                    break;
+
+                default:
+                    releases = releases.OrderBy(r => r.Edition);
+                    break;
+            }
+
+            int pageSize = 20;
+            return View(await PaginatedList<Release>.CreateAsync(releases.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Releases/Details/5
