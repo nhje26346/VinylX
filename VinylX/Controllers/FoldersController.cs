@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VinylX.Data;
 using VinylX.Models;
+using VinylX.Services;
 
 namespace VinylX.Controllers
 {
@@ -15,16 +16,20 @@ namespace VinylX.Controllers
     public class FoldersController : Controller
     {
         private readonly VinylXContext _context;
+        private readonly IUserService userService;
 
-        public FoldersController(VinylXContext context)
+        public FoldersController(VinylXContext context, IUserService userService)
         {
             _context = context;
+            this.userService = userService;
         }
 
         // GET: Folders
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Folder.ToListAsync());
+            var user = await userService.GetLoggedInUser()!;
+
+            return View(_context.Folder.Where(f => f.User.UserId == user.UserId));
         }
 
         // GET: Folders/Details/5
@@ -56,15 +61,25 @@ namespace VinylX.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FolderId,FolderName")] Folder folder)
+        public async Task<IActionResult> Create([Bind("FolderId,FolderName,User")] Folder folder)
         {
-            if (ModelState.IsValid)
+            var user = await userService.GetLoggedInUser();
+            if (user == null)
             {
+                throw new Exception("User not logged in.");
+            }
+            folder.User = user;
+
+
+            //if (ModelState.IsValid)
+            //{
+                
+
                 _context.Add(folder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            return View(folder);
+            //}
+            //return View(folder);
         }
 
         // GET: Folders/Edit/5
@@ -95,8 +110,8 @@ namespace VinylX.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 try
                 {
                     _context.Update(folder);
@@ -114,8 +129,8 @@ namespace VinylX.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            return View(folder);
+            //}
+            //return View(folder);
         }
 
         // GET: Folders/Delete/5

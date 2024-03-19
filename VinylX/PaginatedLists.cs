@@ -2,10 +2,10 @@
 
 namespace VinylX
 {
-    public class PaginatedList<T> : List<T>
+    internal class PaginatedList<T> : List<T>
     {
-        public int PageIndex { get;  set; } //TODO: privatize
-        public int TotalPages { get; set; }
+        internal int PageIndex { get; set; } //TODO: privatize
+        internal int TotalPages { get; set; }
 
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
