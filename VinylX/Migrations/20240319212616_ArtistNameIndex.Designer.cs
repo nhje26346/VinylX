@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VinylX.Data;
 
@@ -11,9 +12,11 @@ using VinylX.Data;
 namespace VinylX.Migrations
 {
     [DbContext(typeof(VinylXContext))]
-    partial class VinylXContextModelSnapshot : ModelSnapshot
+    [Migration("20240319212616_ArtistNameIndex")]
+    partial class ArtistNameIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +82,7 @@ namespace VinylX.Migrations
 
                     b.Property<string>("AlbumName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ArtistId")
                         .HasColumnType("int");
@@ -91,8 +94,6 @@ namespace VinylX.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("MasterReleaseId");
-
-                    b.HasIndex("AlbumName");
 
                     b.HasIndex("ArtistId");
 

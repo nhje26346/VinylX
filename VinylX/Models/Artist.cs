@@ -6,7 +6,7 @@ namespace VinylX.Models
 {
 
     [Index(nameof(DiscogArtistId), IsUnique = true)]
-    //[Index(nameof(ArtistName), IsUnique = false)]
+    [Index(nameof(ArtistName), IsUnique = false)]
     public class Artist
     {
         public int ArtistId { get; set; }

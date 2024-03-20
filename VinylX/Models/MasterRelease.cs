@@ -3,7 +3,7 @@
 namespace VinylX.Models
 {
     [Index(nameof(DiscogMasterReleaseId), IsUnique = true)]
-    //[Index(nameof(AlbumName), IsUnique = false)]
+    [Index(nameof(AlbumName), IsUnique = false)]
     public class MasterRelease
     {
         public int MasterReleaseId { get; set; }
