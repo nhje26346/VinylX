@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VinylX.Data;
 using VinylX.Models;
+using VinylX.Repositories;
 using VinylX.Services;
 
 namespace VinylX.Controllers
@@ -15,13 +16,23 @@ namespace VinylX.Controllers
     [Authorize]
     public class FoldersController : Controller
     {
-        private readonly VinylXContext _context;
+        //private readonly VinylXContext _context;
+        private readonly IRepositoryFoundation repositoryFoundation;
+        private readonly IRepository<Folder> folderRepository;
+        private readonly IRepository<ReleaseInstance> releaseInstanceRepository;
         private readonly IUserService userService;
 
-        public FoldersController(VinylXContext context, IUserService userService)
+        //public FoldersController(VinylXContext context, IUserService userService)
+        //{
+        //    _context = context;
+        //    this.userService = userService;
+        //}
+        public FoldersController(IRepositoryFoundation repositoryFoundation, IRepository<Folder> folderRepository, IUserService userService, IRepository<ReleaseInstance> releaseInstanceRepository)
         {
-            _context = context;
+            this.repositoryFoundation = repositoryFoundation;
+            this.folderRepository = folderRepository;
             this.userService = userService;
+            this.releaseInstanceRepository = releaseInstanceRepository;
         }
 
         // GET: Folders
@@ -29,7 +40,8 @@ namespace VinylX.Controllers
         {
             var user = await userService.GetLoggedInUser()!;
 
-            return View(_context.Folder.Where(f => f.User.UserId == user.UserId));
+            //return View(_context.Folder.Where(f => f.User.UserId == user.UserId));
+            return View(folderRepository.Queryable.Where(f => f.User.UserId == user.UserId));
         }
 
         // GET: Folders/Details/5
@@ -40,7 +52,8 @@ namespace VinylX.Controllers
                 return NotFound();
             }
 
-            var folder = await _context.Folder
+            //var folder = await _context.Folder
+            var folder = await folderRepository.Queryable
                 .FirstOrDefaultAsync(m => m.FolderId == id);
 
             if (folder == null)
@@ -48,7 +61,8 @@ namespace VinylX.Controllers
                 return NotFound();
             }
 
-            var releaseIntances = _context.ReleaseInstance
+            //var releaseIntances = _context.ReleaseInstance
+            var releaseIntances = releaseInstanceRepository.Queryable
                 .Include(r => r.Release)
                 .Include(r => r.Release.MasterRelease)
                 .Include(r => r.Release.MasterRelease.Artist)
@@ -79,16 +93,11 @@ namespace VinylX.Controllers
             }
             folder.User = user;
 
-
-            //if (ModelState.IsValid)
-            //{
-                
-
-                _context.Add(folder);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            //}
-            //return View(folder);
+            //_context.Add(folder);
+            folderRepository.Add(folder);
+            //await _context.SaveChangesAsync();
+            await repositoryFoundation.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Folders/Edit/5
@@ -99,7 +108,8 @@ namespace VinylX.Controllers
                 return NotFound();
             }
 
-            var folder = await _context.Folder.FindAsync(id);
+            //var folder = await _context.Folder.FindAsync(id);
+            var folder = await folderRepository.FindAsync(id);
             if (folder == null)
             {
                 return NotFound();
@@ -119,27 +129,26 @@ namespace VinylX.Controllers
                 return NotFound();
             }
 
-            //if (ModelState.IsValid)
-            //{
-                try
+            
+            try
+            {
+                //_context.Update(folder);
+                folderRepository.Update(folder);
+                //await _context.SaveChangesAsync();
+                await repositoryFoundation.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!FolderExists(folder.FolderId))
                 {
-                    _context.Update(folder);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!FolderExists(folder.FolderId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
-                return RedirectToAction(nameof(Index));
-            //}
-            //return View(folder);
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Folders/Delete/5
@@ -150,7 +159,8 @@ namespace VinylX.Controllers
                 return NotFound();
             }
 
-            var folder = await _context.Folder
+            //var folder = await _context.Folder
+            var folder = await folderRepository.Queryable
                 .FirstOrDefaultAsync(m => m.FolderId == id);
             if (folder == null)
             {
@@ -165,19 +175,23 @@ namespace VinylX.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var folder = await _context.Folder.FindAsync(id);
+            //var folder = await _context.Folder.FindAsync(id);
+            var folder = await folderRepository.FindAsync(id);
             if (folder != null)
             {
-                _context.Folder.Remove(folder);
+                //_context.Folder.Remove(folder);
+                folderRepository.Remove(folder);
             }
 
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
+            await repositoryFoundation.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FolderExists(int id)
         {
-            return _context.Folder.Any(e => e.FolderId == id);
+            //return _context.Folder.Any(e => e.FolderId == id);
+            return folderRepository.Queryable.Any(e => e.FolderId == id);
         }
 
         public class FolderAndReleases

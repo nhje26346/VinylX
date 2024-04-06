@@ -25,6 +25,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddVinylXRepositories();
 builder.Services.AddVinylXServices();
 
 var app = builder.Build();

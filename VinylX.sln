@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoredProcedures", "StoredP
 		DatabaseResources\StoredProcedures\ALTER PROCEDURE [dbo].[pRelease_ImportFromDiscogs].sql = DatabaseResources\StoredProcedures\ALTER PROCEDURE [dbo].[pRelease_ImportFromDiscogs].sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VinylX.Test", "VinylX.Test\VinylX.Test.csproj", "{812AD670-7453-4248-B3AF-935C10BA7EA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{28A11709-97DE-4E99-9F0B-F5ED3FC3AD89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28A11709-97DE-4E99-9F0B-F5ED3FC3AD89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28A11709-97DE-4E99-9F0B-F5ED3FC3AD89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{812AD670-7453-4248-B3AF-935C10BA7EA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{812AD670-7453-4248-B3AF-935C10BA7EA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{812AD670-7453-4248-B3AF-935C10BA7EA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{812AD670-7453-4248-B3AF-935C10BA7EA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
