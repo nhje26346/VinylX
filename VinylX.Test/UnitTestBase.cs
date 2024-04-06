@@ -45,5 +45,23 @@ namespace VinylX.Test
             services.AddScoped<IRepository<Release>, ReleaseRepositoryMockup>();
             services.AddScoped<IRepository<User>, UserRepositoryMockup>();
         }
+
+        protected async Task<User> CreateUser(User user, bool setAsLoggedIn)
+        {
+            var newUser = GetRepository<User>().Add(user);
+            await Save();
+
+            if (setAsLoggedIn)
+            {
+                var userService = (UserServiceMockup)ServiceProvider.GetRequiredService<IUserService>();
+                userService.SetLoggedInUser(newUser);
+            }
+
+            return newUser;
+        }
+
+        protected IRepository<TEntity> GetRepository<TEntity>() where TEntity : class => ServiceProvider.GetRequiredService<IRepository<TEntity>>();
+
+        protected Task Save() => ServiceProvider.GetRequiredService<IRepositoryFoundation>().SaveChangesAsync();
     }
 }
