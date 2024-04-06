@@ -22,15 +22,17 @@
         <tr style="border-bottom: 1px solid black;">
             <td style="border-right: 1px solid black;"> *@
     <table class="table">
-                @Html.DisplayNameFor(model => model.ReleaseInstances.First().Release.MasterRelease.Artist.ArtistName)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model.ReleaseInstances.First().Release.MasterRelease.AlbumName)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model.ReleaseInstances.First().Release.Edition)
-            </td>
-        </tr>
+     <tr>
+        <td>
+            @Html.DisplayNameFor(model => model.ReleaseInstances.First().Release.MasterRelease.Artist.ArtistName)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.ReleaseInstances.First().Release.MasterRelease.AlbumName)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.ReleaseInstances.First().Release.Edition)
+        </td>
+     </tr>
         @foreach (var item in Model.ReleaseInstances)
         {
             <tr>
