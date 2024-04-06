@@ -37,13 +37,21 @@ namespace VinylX.Test
         {
             services.AddScoped<IRepositoryFoundation, RepositoryFoundationMockup>();
             services.AddScoped<IRepository<Artist>, ArtistRepositoryMockup>();
+            ArtistRepositoryMockup.Reset();
             services.AddScoped<IRepository<Folder>, FolderRepositoryMockup>();
+            FolderRepositoryMockup.Reset();
             services.AddScoped<IRepository<MasterRelease>, MasterReleaseRepositoryMockup>();
+            MasterReleaseRepositoryMockup.Reset();
             services.AddScoped<IRepository<Media>, MediaRepositoryMockup>();
+            MediaRepositoryMockup.Reset();
             services.AddScoped<IRepository<RecordLabel>, RecordLabelRepositoryMockup>();
+            RecordLabelRepositoryMockup.Reset();
             services.AddScoped<IRepository<ReleaseInstance>, ReleaseInstanceRepositoryMockup>();
+            ReleaseInstanceRepositoryMockup.Reset();
             services.AddScoped<IRepository<Release>, ReleaseRepositoryMockup>();
+            ReleaseRepositoryMockup.Reset();
             services.AddScoped<IRepository<User>, UserRepositoryMockup>();
+            UserRepositoryMockup.Reset();
         }
 
         protected async Task<User> CreateUser(User user, bool setAsLoggedIn)

@@ -72,6 +72,12 @@ namespace VinylX.Test.Mockups.Repositories
 
         #endregion
 
+        public static void Reset()
+        {
+            savedList = new List<TEntity>();
+            workingList = new List<TEntity>();
+        }
+
         protected abstract int GetId(TEntity entity);
 
         protected abstract void SetId(TEntity entity, int id);
