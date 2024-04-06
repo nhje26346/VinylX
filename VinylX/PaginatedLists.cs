@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VinylX.Models;
 
 namespace VinylX
 {
@@ -28,5 +27,5 @@ namespace VinylX
         }
 
     }
-       
+
 }
