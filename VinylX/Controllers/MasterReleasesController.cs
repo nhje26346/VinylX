@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VinylX.Data;
 using VinylX.Models;
+using X.PagedList;
 
 namespace VinylX.Controllers
 {
@@ -22,9 +23,16 @@ namespace VinylX.Controllers
         }
 
         // GET: MasterReleases
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            return View(await _context.MasterRelease.ToListAsync());
+            var masterReleases = _context.MasterRelease;
+
+            var pageNumber = page ?? 1;
+            var onePageOfItems = masterReleases.ToPagedList(pageNumber, 25);
+            ViewBag.OnePageOfItems = onePageOfItems;
+
+            //return View(await _context.MasterRelease.ToListAsync());
+            return View();
         }
 
         // GET: MasterReleases/Details/5

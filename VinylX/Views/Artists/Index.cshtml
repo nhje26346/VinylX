@@ -1,4 +1,6 @@
-﻿@model IEnumerable<VinylX.Models.Artist>
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IEnumerable<VinylX.Models.Artist>
 
 @{
     ViewData["Title"] = "Index";
@@ -22,13 +24,14 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in ViewBag.OnePageOfItems)
+        {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ArtistName)
+                @item.ArtistName
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DiscogArtistId)
+                @item.DiscogArtistId
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ArtistId">Edit</a> |
@@ -38,4 +41,5 @@
         </tr>
 }
     </tbody>
+    @Html.PagedListPager((IPagedList)ViewBag.OnePageOfItems, page => Url.Action("Index", new { page }))
 </table>

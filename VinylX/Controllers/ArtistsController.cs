@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using VinylX.Data;
 using VinylX.Models;
 using VinylX.Repositories;
+using X.PagedList;
 
 namespace VinylX.Controllers
 {
@@ -30,10 +31,18 @@ namespace VinylX.Controllers
         }
 
         // GET: Artists
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
+            var artists = artistRepository.Queryable;
+
+            var pageNumber = page ?? 1;
+            var onePageOfItems = artists.ToPagedList(pageNumber, 25);
+            ViewBag.OnePageOfItems = onePageOfItems;
+
             //return View(await _context.Artist.ToListAsync());
-            return View(await artistRepository.Queryable.ToListAsync());
+            //return View(await artistRepository.Queryable.ToListAsync());
+
+            return View();
         }
 
         // GET: Artists/Details/5
