@@ -18,12 +18,13 @@
         </dd>
     </dl>
 
-    <table style="border: 1px solid black;">
+   @*  <table style="border: 1px solid black;">
         <tr style="border-bottom: 1px solid black;">
-            <td style="border-right: 1px solid black;">
+            <td style="border-right: 1px solid black;"> *@
+    <table class="table">
                 @Html.DisplayNameFor(model => model.ReleaseInstances.First().Release.MasterRelease.Artist.ArtistName)
             </td>
-            <td style="border-right: 1px solid black;">
+            <td>
                 @Html.DisplayNameFor(model => model.ReleaseInstances.First().Release.MasterRelease.AlbumName)
             </td>
             <td>
@@ -33,10 +34,10 @@
         @foreach (var item in Model.ReleaseInstances)
         {
             <tr>
-                <td style="border-right: 1px solid black;">
+                <td >
                     @item.Release.MasterRelease.Artist.ArtistName
                 </td>
-                <td style ="border-right: 1px solid black;">
+                <td>
                     @item.Release.MasterRelease.AlbumName
                 </td>
                 <td>

@@ -15,6 +15,7 @@ namespace VinylX.Discogs.FileImport.Services.Implementations
 
         private readonly ILogger<ZipFileService> logger;
 
+        // Helper Service to eliminate the need for unzipping.
         public ZipFileService(ILogger<ZipFileService> logger)
         {
             this.logger = logger;

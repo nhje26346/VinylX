@@ -3,7 +3,7 @@
 namespace VinylX.DiscogsImport
 {
     public class ImportHelper
-    {
+    { //This class is no longer used. It was the first attempt at handling the XML files from Discog. Please use Discog.Fileimport in the future
         public void SplitXml(string filepathToSplit, string rootNodeName, string nodeToSplitName, int numberOfNodes, string filepath)
         {
             XmlDocument document = new XmlDocument();
@@ -22,11 +22,11 @@ namespace VinylX.DiscogsImport
             splitDocument.AppendChild(splitRootNode);
             foreach (XmlNode node in nodes)
             {
-               
+
                 // new document
-                if (nodesProcessed == numberOfNodes) 
+                if (nodesProcessed == numberOfNodes)
                 {
-                    splitDocument.Save(filepath+"/"+ rootNodeName+""+ documentsProcessed+".xml");            
+                    splitDocument.Save(filepath + "/" + rootNodeName + "" + documentsProcessed + ".xml");
                     documentsProcessed++;
 
                     splitDocument = new XmlDocument();
