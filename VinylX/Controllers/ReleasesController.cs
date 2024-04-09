@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using VinylX.Data;
 using VinylX.Models;
 using VinylX.Services;
@@ -27,12 +29,30 @@ namespace VinylX.Controllers
         }
 
         // GET: Releases
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index(int? page, bool resetSearch, string? search)
         {
-            IQueryable<Release> releases = _context.Release;
+            if (resetSearch)
+            {
+                if (string.IsNullOrEmpty(search))
+                {
+                    HttpContext.Session.Remove("search");
+                }
+                else
+                {
+                    HttpContext.Session.SetString("search", search);
+                }
+            }
+
+            var searchString = HttpContext.Session.GetString("search");
+
+            var releases = _context.Release
+                .Include(r => r.MasterRelease)
+                .Include(r => r.MasterRelease.Artist)
+                .Where(r => string.IsNullOrEmpty(searchString)
+                    || EF.Functions.Like(r.MasterRelease.Artist.ArtistName, $"%{searchString}%")); 
 
             var pageNumber = page ?? 1;
-            var onePageOfItems = releases.Include(r => r.MasterRelease).Include(r => r.MasterRelease.Artist).ToPagedList(pageNumber, 25);
+            var onePageOfItems = releases.ToPagedList(pageNumber, 25);
 
             ViewBag.OnePageOfItems = onePageOfItems;
 

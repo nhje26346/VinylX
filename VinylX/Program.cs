@@ -28,6 +28,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddVinylXRepositories();
 builder.Services.AddVinylXServices();
 
+builder.Services.AddMvc().AddSessionStateTempDataProvider();
+builder.Services.AddSession();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())  //TODO Remove 24-28
@@ -59,5 +62,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+app.UseSession();
 
 app.Run();

@@ -8,11 +8,18 @@
 
 <link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-<h1>Index</h1>
+<h1>Releases</h1>
 
-<p>
+@* <p>
     <a asp-action="Create">Create New</a>
-</p>
+</p> *@
+
+<form action="releases">
+    <input type="hidden" name="resetSearch" value="true"/>
+    <input type="text" name="search"/>
+    <input type="submit" value="Search"/>
+</form>
+
 <table class="table">
     <thead>
         <tr>
